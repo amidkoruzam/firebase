@@ -1,3 +1,9 @@
-export const signIn = () => fetch();
+import { firebase } from "../firebase";
 
-export const getViewer = () => fetch();
+const signIn = ({ email, password }) => firebase.signIn({ email, password });
+
+const getViewer = () => fetch();
+
+export const authApi = {
+  signIn,
+};

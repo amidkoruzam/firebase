@@ -1,11 +1,15 @@
 import React from "react";
+import { useLogin } from "../../shared/auth";
 
 export const Login = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
+  const { login } = useLogin()
+
   const onSubmit = (evt) => {
     evt.preventDefault();
+    login({ email, password });
   };
 
   return (

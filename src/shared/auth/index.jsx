@@ -1,4 +1,5 @@
 import * as React from "react";
+import { authApi } from "../api/auth";
 
 const AuthContext = React.createContext();
 
@@ -35,7 +36,7 @@ export const useAuth = () => {
 
 export const useLogin = () => {
   const { authenticate } = useAuth();
-  const login = () => fetch().then(authenticate);
+  const login = ({ email, password }) => authApi.signIn({ email, password }).then(authenticate);
 
   return { login };
 };
