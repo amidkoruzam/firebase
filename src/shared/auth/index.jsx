@@ -10,33 +10,37 @@ const saveViewerAsLoggedOut = () => localStorage.setItem("is_logged", "0");
 
 export const AuthProvider = ({ children }) => {
   const [isAuthed, setAuthed] = React.useState(checkIsViewerLoggedIn());
+  const [viewer, setViewer] = React.useState(null);
 
   return (
-    <AuthContext.Provider value={{ isAuthed, setAuthed }}>
+    <AuthContext.Provider value={{ isAuthed, setAuthed, viewer, setViewer }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
 export const useAuth = () => {
-  const { isAuthed, setAuthed } = React.useContext(AuthContext);
+  const { isAuthed, setAuthed, setViewer, viewer } = React.useContext(AuthContext);
 
-  const authenticate = () => {
-    setAuthed(false);
+  const authenticate = ({ email, uid }) => {
+    setViewer({ email, uid });
+    setAuthed(true);
     saveViewerAsLoggedIn();
   };
 
   const deAuthenticate = () => {
-    setAuthed(true);
+    setAuthed(false);
     saveViewerAsLoggedOut();
   };
 
-  return { isAuthed, authenticate, deAuthenticate };
+  return { isAuthed, authenticate, deAuthenticate, viewer };
 };
 
 export const useLogin = () => {
   const { authenticate } = useAuth();
-  const login = ({ email, password }) => authApi.signIn({ email, password }).then(authenticate);
+  const login = ({ email, password }) => authApi
+    .signIn({ email, password })
+    .then(({ email, uid }) => authenticate({ email, uid }));
 
   return { login };
 };
@@ -47,3 +51,8 @@ export const useRegister = () => {
 
   return { register };
 };
+
+export const useViewer = () => {
+  const { viewer } = useAuth();
+  return viewer
+}
