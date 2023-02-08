@@ -20,7 +20,8 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => {
-  const { isAuthed, setAuthed, setViewer, viewer } = React.useContext(AuthContext);
+  const { isAuthed, setAuthed, setViewer, viewer } =
+    React.useContext(AuthContext);
 
   const authenticate = ({ email, uid }) => {
     setViewer({ email, uid });
@@ -38,9 +39,10 @@ export const useAuth = () => {
 
 export const useLogin = () => {
   const { authenticate } = useAuth();
-  const login = ({ email, password }) => authApi
-    .signIn({ email, password })
-    .then(({ email, uid }) => authenticate({ email, uid }));
+  const login = ({ email, password }) =>
+    authApi
+      .signIn({ email, password })
+      .then(({ email, uid }) => authenticate({ email, uid }));
 
   return { login };
 };
@@ -51,8 +53,3 @@ export const useRegister = () => {
 
   return { register };
 };
-
-export const useViewer = () => {
-  const { viewer } = useAuth();
-  return viewer
-}
