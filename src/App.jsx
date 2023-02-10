@@ -1,4 +1,4 @@
-import { ImageUploader } from "./features/images";
+import { ImageList, ImageUploader } from "./features/images";
 import { Login } from "./features/login";
 import { useViewer } from "./features/viewer";
 
@@ -16,6 +16,8 @@ function App() {
       </div> */}
 
       <ImageUploader />
+
+      <ImageList />
     </div>
   );
 }
